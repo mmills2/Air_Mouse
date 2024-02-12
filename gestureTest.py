@@ -1,44 +1,49 @@
 import mediapipe as mp
-from mediapipe.tasks import python
-from mediapipe.tasks.python import vision
-
-# BaseOptions = mp.tasks.BaseOptions
-# GestureRecognizer = mp.tasks.vision.GestureRecognizer
-# GestureRecognizerOptions = mp.tasks.vision.GestureRecognizerOptions
-# GestureRecognizerResult = mp.tasks.vision.GestureRecognizerResult
-# VisionRunningMode = mp.tasks.vision.RunningMode
-
-# # Create a gesture recognizer instance with the live stream mode:
-# def print_result(result: GestureRecognizerResult, output_image: mp.Image, timestamp_ms: int):
-#     print('gesture recognition result: {}'.format(result))
-
-# options = GestureRecognizerOptions(
-#     base_options=BaseOptions(model_asset_path='gesture_recognizer.task'),
-#     running_mode=VisionRunningMode.LIVE_STREAM,
-#     result_callback=print_result)
-# with GestureRecognizer.create_from_options(options) as recognizer:
-  # The detector is initialized. Use it here.
-  # ...
+import cv2
 
 BaseOptions = mp.tasks.BaseOptions
 GestureRecognizer = mp.tasks.vision.GestureRecognizer
 GestureRecognizerOptions = mp.tasks.vision.GestureRecognizerOptions
+GestureRecognizerResult = mp.tasks.vision.GestureRecognizerResult
 VisionRunningMode = mp.tasks.vision.RunningMode
 
-# Create a gesture recognizer instance with the image mode:
+
+video = cv2.VideoCapture(0)
+
+# Create a image segmenter instance with the live stream mode:
+def print_result(result: GestureRecognizerResult, output_image: mp.Image, timestamp_ms: int):
+    # cv2.imshow('Show', output_image.numpy_view())
+    # imright = output_image.numpy_view()
+    print(result.gestures)
+    # cv2.imwrite('somefile.jpg', imright)
+
+
 options = GestureRecognizerOptions(
     base_options=BaseOptions(model_asset_path='gesture_recognizer.task'),
-    running_mode=VisionRunningMode.IMAGE)
+    running_mode=VisionRunningMode.LIVE_STREAM,
+    result_callback=print_result)
+
+timestamp = 0
 with GestureRecognizer.create_from_options(options) as recognizer:
-  # The detector is initialized. Use it here.
-  # ...
+  # The recognizer is initialized. Use it here.
+    while video.isOpened(): 
+        # Capture frame-by-frame
+        ret, frame = video.read()
 
-    # Load the input image from an image file.
-    mp_image = mp.Image.create_from_file('thumbs-up-2649310_640.jpg')
+        if not ret:
+            print("Ignoring empty frame")
+            break
 
-    # Perform gesture recognition on the provided single image.
-    # The gesture recognizer must be created with the image mode.
-    gesture_recognition_result = recognizer.recognize(mp_image)
-    print(gesture_recognition_result.gestures)
-    print(gesture_recognition_result.handedness)
-    # print(gesture_recognition_result.hand_landmarks)
+        timestamp += 1
+        mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=frame)
+        # Send live image data to perform gesture recognition
+        # The results are accessible via the `result_callback` provided in
+        # the `GestureRecognizerOptions` object.
+        # The gesture recognizer must be created with the live stream mode.
+        recognizer.recognize_async(mp_image, timestamp)
+
+        if cv2.waitKey(5) & 0xFF == 27:
+            break
+
+video.release()
+cv2.destroyAllWindows()
