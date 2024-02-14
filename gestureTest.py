@@ -14,7 +14,7 @@ video = cv2.VideoCapture(0)
 def print_result(result: GestureRecognizerResult, output_image: mp.Image, timestamp_ms: int):
     # cv2.imshow('Show', output_image.numpy_view())
     # imright = output_image.numpy_view()
-    print(result.gestures)
+    print(result.hand_landmarks)
     # cv2.imwrite('somefile.jpg', imright)
 
 
