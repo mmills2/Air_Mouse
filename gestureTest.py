@@ -1,5 +1,6 @@
 import mediapipe as mp
 import cv2
+import mouse
 
 BaseOptions = mp.tasks.BaseOptions
 GestureRecognizer = mp.tasks.vision.GestureRecognizer
@@ -14,8 +15,13 @@ video = cv2.VideoCapture(0)
 def print_result(result: GestureRecognizerResult, output_image: mp.Image, timestamp_ms: int):
     # cv2.imshow('Show', output_image.numpy_view())
     # imright = output_image.numpy_view()
-    print(result.hand_landmarks)
-    # cv2.imwrite('somefile.jpg', imright)
+    hand_landmarks_unencessary_list = result.hand_landmarks # is list with one list in it that has all landmarks
+    if(len(hand_landmarks_unencessary_list) > 0):
+        hand_landmarks_list = hand_landmarks_unencessary_list[0] # removes outer list layer that does nothing
+        hand_landmarks = hand_landmarks_list[9] # middle of hand
+        print("x:",hand_landmarks.x)
+        print("y:",hand_landmarks.y)
+        mouse.move((1 - hand_landmarks.x) * 1382, hand_landmarks.y * 864, absolute=True, duration=0)
 
 
 options = GestureRecognizerOptions(
