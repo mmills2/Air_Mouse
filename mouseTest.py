@@ -9,6 +9,8 @@ import time
 
 # move 100 right & 100 down
 # mouse.move(3000, 2000, absolute=True, duration=0.2)
-while (True):
-    print(mouse.get_position())
-    time.sleep(0.5)
+# while (True):
+#     print(mouse.get_position())
+#     time.sleep(0.5)
+
+mouse.drag(500, 300, 700, 500, absolute=True, duration=0.2)

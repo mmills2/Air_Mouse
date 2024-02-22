@@ -30,15 +30,16 @@ def mouseFunctions(result: GestureRecognizerResult, output_image: mp.Image, time
     gestureList = result.gestures
     hand_landmarks_list = result.hand_landmarks # is list with one list in it that has all landmarks
     if(len(hand_landmarks_list) > 0):
-        print(gestureList[0][0].category_name)
+        # print(gestureList[0][0].category_name)
         hand_landmarks = hand_landmarks_list[0][9] # removes outer list layer and gets middle of hand
-        print("x:",hand_landmarks.x)
-        print("y:",hand_landmarks.y)
+        # print("x:",hand_landmarks.x)
+        # print("y:",hand_landmarks.y)
         if (gestureList[0][0].category_name == "Open_Palm"):
             mouse.move((((1 - hand_landmarks.x) * 1.71429) -0.357143) * 1382, ((hand_landmarks.y * 1.71429) -0.357143) * 864, absolute=True, duration=0) # 1382 x 864 is currently my own screen resolution (only that small because its scaled 250%) I want to change this to get the machine's screen size (not sure how I will account for scaling though)
             if(dragStarted == 1):
-                # print points to see if works
-                # mouse.drag(dragStartPoint[0], dragStartPoint[1], mouse.get_position()[0], mouse.get_position()[1], absolute = true, duration = 0.1)
+                print("Start: ", dragStartPoint[0], dragStartPoint[1])
+                print("End: ", mouse.get_position()[0], mouse.get_position()[1])
+                mouse.drag(dragStartPoint[0], dragStartPoint[1], mouse.get_position()[0], mouse.get_position()[1], absolute = True, duration = 0.1)
                 dragStarted = 0
         elif (gestureList[0][0].category_name == "Pointing_Up"):
             if(leftClicked == 0):
@@ -60,7 +61,7 @@ def mouseFunctions(result: GestureRecognizerResult, output_image: mp.Image, time
             if(dragStarted == 0):
                 dragStartPoint = mouse.get_position()
                 dragStarted = 1
-            mouse.move((1 - hand_landmarks.x) * 1382, hand_landmarks.y * 864, absolute=True, duration=0)
+            mouse.move((((1 - hand_landmarks.x) * 1.71429) -0.357143) * 1382, ((hand_landmarks.y * 1.71429) -0.357143) * 864, absolute=True, duration=0)
         else:
             leftClicked = 0
             rightClicked = 0
