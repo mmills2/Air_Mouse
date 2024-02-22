@@ -11,23 +11,36 @@ VisionRunningMode = mp.tasks.vision.RunningMode
 
 video = cv2.VideoCapture(0)
 
+leftClicked = 0
+
 # Create a image segmenter instance with the live stream mode:
-def print_result(result: GestureRecognizerResult, output_image: mp.Image, timestamp_ms: int):
+def mouseFunctions(result: GestureRecognizerResult, output_image: mp.Image, timestamp_ms: int):
+    global leftClicked
     # cv2.imshow('Show', output_image.numpy_view())
     # imright = output_image.numpy_view()
-    hand_landmarks_unencessary_list = result.hand_landmarks # is list with one list in it that has all landmarks
-    if(len(hand_landmarks_unencessary_list) > 0):
-        hand_landmarks_list = hand_landmarks_unencessary_list[0] # removes outer list layer that does nothing
-        hand_landmarks = hand_landmarks_list[9] # middle of hand
+    gestureList = result.gestures
+    hand_landmarks_list = result.hand_landmarks # is list with one list in it that has all landmarks
+    if(len(hand_landmarks_list) > 0):
+        print(gestureList[0][0].category_name)
+        hand_landmarks = hand_landmarks_list[0][9] # removes outer list layer and gets middle of hand
         print("x:",hand_landmarks.x)
         print("y:",hand_landmarks.y)
-        mouse.move((1 - hand_landmarks.x) * 1382, hand_landmarks.y * 864, absolute=True, duration=0)
+        if (gestureList[0][0].category_name == "Open_Palm"):
+            mouse.move((1 - hand_landmarks.x) * 1382, hand_landmarks.y * 864, absolute=True, duration=0) # 1382 x 864 is currently my own screen resolution (only that small because its scaled 250%) I want to change this to get the machine's screen size (not sure how I will account for scaling though)
+        elif (gestureList[0][0].category_name == "Pointing_Up"):
+            if(leftClicked == 0):
+                mouse.click("left")
+                leftClicked = 1
+        else:
+            leftClicked = 0
+
+        
 
 
 options = GestureRecognizerOptions(
     base_options=BaseOptions(model_asset_path='gesture_recognizer.task'),
     running_mode=VisionRunningMode.LIVE_STREAM,
-    result_callback=print_result)
+    result_callback=mouseFunctions)
 
 timestamp = 0
 with GestureRecognizer.create_from_options(options) as recognizer:
