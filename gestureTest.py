@@ -12,10 +12,19 @@ VisionRunningMode = mp.tasks.vision.RunningMode
 video = cv2.VideoCapture(0)
 
 leftClicked = 0
+rightClicked = 0
+middleClicked = 0
+dragStarted = 0
+dragStartPoint = (0,0)
 
 # Create a image segmenter instance with the live stream mode:
 def mouseFunctions(result: GestureRecognizerResult, output_image: mp.Image, timestamp_ms: int):
     global leftClicked
+    global rightClicked
+    global middleClicked
+    global dragStarted
+    global dragStartPoint
+
     # cv2.imshow('Show', output_image.numpy_view())
     # imright = output_image.numpy_view()
     gestureList = result.gestures
@@ -26,13 +35,36 @@ def mouseFunctions(result: GestureRecognizerResult, output_image: mp.Image, time
         print("x:",hand_landmarks.x)
         print("y:",hand_landmarks.y)
         if (gestureList[0][0].category_name == "Open_Palm"):
-            mouse.move((1 - hand_landmarks.x) * 1382, hand_landmarks.y * 864, absolute=True, duration=0) # 1382 x 864 is currently my own screen resolution (only that small because its scaled 250%) I want to change this to get the machine's screen size (not sure how I will account for scaling though)
+            mouse.move((((1 - hand_landmarks.x) * 1.71429) -0.357143) * 1382, ((hand_landmarks.y * 1.71429) -0.357143) * 864, absolute=True, duration=0) # 1382 x 864 is currently my own screen resolution (only that small because its scaled 250%) I want to change this to get the machine's screen size (not sure how I will account for scaling though)
+            if(dragStarted == 1):
+                # print points to see if works
+                # mouse.drag(dragStartPoint[0], dragStartPoint[1], mouse.get_position()[0], mouse.get_position()[1], absolute = true, duration = 0.1)
+                dragStarted = 0
         elif (gestureList[0][0].category_name == "Pointing_Up"):
             if(leftClicked == 0):
                 mouse.click("left")
                 leftClicked = 1
+        elif (gestureList[0][0].category_name == "Victory"):
+            if(rightClicked == 0):
+                mouse.click("right")
+                rightClicked = 1
+        elif (gestureList[0][0].category_name == "Closed_Fist"):
+            if(middleClicked == 0):
+                mouse.click("middle")
+                middleClicked = 1
+        elif (gestureList[0][0].category_name == "Thumb_Up"):
+            mouse.wheel(0.5)
+        elif (gestureList[0][0].category_name == "Thumb_Down"):
+            mouse.wheel(-0.5)
+        elif (gestureList[0][0].category_name == "ILoveYou"):
+            if(dragStarted == 0):
+                dragStartPoint = mouse.get_position()
+                dragStarted = 1
+            mouse.move((1 - hand_landmarks.x) * 1382, hand_landmarks.y * 864, absolute=True, duration=0)
         else:
             leftClicked = 0
+            rightClicked = 0
+            middleClicked = 0
 
         
 
