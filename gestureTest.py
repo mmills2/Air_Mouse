@@ -16,6 +16,8 @@ rightClicked = 0
 middleClicked = 0
 dragStarted = 0
 dragStartPoint = (0,0)
+lastMovePoint = (0,0)
+currentlyMoving = 0
 
 # Create a image segmenter instance with the live stream mode:
 def mouseFunctions(result: GestureRecognizerResult, output_image: mp.Image, timestamp_ms: int):
@@ -24,6 +26,8 @@ def mouseFunctions(result: GestureRecognizerResult, output_image: mp.Image, time
     global middleClicked
     global dragStarted
     global dragStartPoint
+    global lastMovePoint
+    global currentlyMoving
 
     # cv2.imshow('Show', output_image.numpy_view())
     # imright = output_image.numpy_view()
@@ -35,10 +39,15 @@ def mouseFunctions(result: GestureRecognizerResult, output_image: mp.Image, time
         # print("x:",hand_landmarks.x)
         # print("y:",hand_landmarks.y)
         if (gestureList[0][0].category_name == "Open_Palm"):
-            mouse.move((((1 - hand_landmarks.x) * 1.71429) -0.357143) * 1382, ((hand_landmarks.y * 1.71429) -0.357143) * 864, absolute=True, duration=0) # 1382 x 864 is currently my own screen resolution (only that small because its scaled 250%) I want to change this to get the machine's screen size (not sure how I will account for scaling though)
+            if(currentlyMoving == 1):
+                if(((abs(lastMovePoint[0] - (1 - hand_landmarks.x)) > 0.003)) or (abs(lastMovePoint[1] - hand_landmarks.y) > 0.003)):
+                    mouse.move((((1 - hand_landmarks.x) * 1.71429) -0.357143) * 1382, ((hand_landmarks.y * 1.71429) -0.357143) * 864, absolute=True, duration=0) # 1382 x 864 is currently my own screen resolution (only that small because its scaled 250%) I want to change this to get the machine's screen size (not sure how I will account for scaling though)
+                    lastMovePoint = (1 - hand_landmarks.x, hand_landmarks.y)
+            else:
+                currentlyMoving = 1
+                mouse.move((((1 - hand_landmarks.x) * 1.71429) -0.357143) * 1382, ((hand_landmarks.y * 1.71429) -0.357143) * 864, absolute=True, duration=0)
+                lastMovePoint = (1 - hand_landmarks.x, hand_landmarks.y)
             if(dragStarted == 1):
-                print("Start: ", dragStartPoint[0], dragStartPoint[1])
-                print("End: ", mouse.get_position()[0], mouse.get_position()[1])
                 mouse.drag(dragStartPoint[0], dragStartPoint[1], mouse.get_position()[0], mouse.get_position()[1], absolute = True, duration = 0.1)
                 dragStarted = 0
         elif (gestureList[0][0].category_name == "Pointing_Up"):
@@ -61,11 +70,15 @@ def mouseFunctions(result: GestureRecognizerResult, output_image: mp.Image, time
             if(dragStarted == 0):
                 dragStartPoint = mouse.get_position()
                 dragStarted = 1
-            mouse.move((((1 - hand_landmarks.x) * 1.71429) -0.357143) * 1382, ((hand_landmarks.y * 1.71429) -0.357143) * 864, absolute=True, duration=0)
+            if(((abs(lastMovePoint[0] - (1 - hand_landmarks.x)) > 0.003)) or (abs(lastMovePoint[1] - hand_landmarks.y) > 0.003)):
+                    mouse.move((((1 - hand_landmarks.x) * 1.71429) -0.357143) * 1382, ((hand_landmarks.y * 1.71429) -0.357143) * 864, absolute=True, duration=0) # 1382 x 864 is currently my own screen resolution (only that small because its scaled 250%) I want to change this to get the machine's screen size (not sure how I will account for scaling though)
+                    lastMovePoint = (1 - hand_landmarks.x, hand_landmarks.y)
+            currentlyMoving = 0
         else:
             leftClicked = 0
             rightClicked = 0
             middleClicked = 0
+            currentlyMoving = 0
 
         
 
