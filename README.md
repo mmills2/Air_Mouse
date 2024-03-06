@@ -8,6 +8,6 @@ To install MediaPipe, run the following command in your command line:
 # python -m pip install mediapipe
 
 To install mouse, run the following command in your command line:
-# python -m pip install mouse
+## python -m pip install mouse
 
 Now that you have the correct version of Python and the libraries installed, you're good to download this project's code and run the code in your programming environment.
