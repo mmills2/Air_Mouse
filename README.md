@@ -36,11 +36,11 @@ For all types of clicks, the mouse will only click once even if you keep your ha
 
 To left click, make a pointing up gesture like this ☝️. 
 
-### Right Click
+#### Right Click
 
 To right click, make a peace sign (same as pointing up but with middle finger pointing up as well) like this ✌️.
 
-### Middle Click
+#### Middle Click
 
 To middle click, make a fist like this ✊.
 
