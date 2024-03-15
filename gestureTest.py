@@ -18,6 +18,15 @@ dragStarted = 0
 dragStartPoint = (0,0)
 lastMovePoint = (0,0)
 currentlyMoving = 0
+preciseStartPoint = (0,0)
+currentlyPreciseMoving = 0
+
+def resetChecks(): # cant get this called in callback
+    leftClicked = 0
+    rightClicked = 0
+    middleClicked = 0
+    currentlyMoving = 0
+    currentlyPreciseMoving = 0
 
 # Create a image segmenter instance with the live stream mode:
 def mouseFunctions(result: GestureRecognizerResult, output_image: mp.Image, timestamp_ms: int):
@@ -28,24 +37,37 @@ def mouseFunctions(result: GestureRecognizerResult, output_image: mp.Image, time
     global dragStartPoint
     global lastMovePoint
     global currentlyMoving
+    global preciseStartPoint
+    global currentlyPreciseMoving
 
     # cv2.imshow('Show', output_image.numpy_view())
     # imright = output_image.numpy_view()
     gestureList = result.gestures
     hand_landmarks_list = result.hand_landmarks # is list with one list in it that has all landmarks
     if(len(hand_landmarks_list) > 0):
-        # print(gestureList[0][0].category_name)
+        print(gestureList[0][0].category_name)
         hand_landmarks = hand_landmarks_list[0][9] # removes outer list layer and gets middle of hand
         # print("x:",hand_landmarks.x)
-        # print("y:",hand_landmarks.y)
+        print("z:", hand_landmarks.z)
         if (gestureList[0][0].category_name == "Open_Palm"):
             if(currentlyMoving == 1):
                 if(((abs(lastMovePoint[0] - (1 - hand_landmarks.x)) > 0.003)) or (abs(lastMovePoint[1] - hand_landmarks.y) > 0.003)):
-                    mouse.move((((1 - hand_landmarks.x) * 1.71429) -0.357143) * 1382, ((hand_landmarks.y * 1.71429) -0.357143) * 864, absolute=True, duration=0) # 1382 x 864 is currently my own screen resolution (only that small because its scaled 250%) I want to change this to get the machine's screen size (not sure how I will account for scaling though)
+                    if(hand_landmarks.z < -0.04):
+                        if(currentlyPreciseMoving == 1):
+                            if(abs((1 - hand_landmarks.x) - preciseStartPoint[0]) > 0.01 or abs(hand_landmarks.y - preciseStartPoint[1]) > 0.01):
+                                mouse.move(((1 - hand_landmarks.x) - preciseStartPoint[0]) * 100, (hand_landmarks.y - preciseStartPoint[1]) * 100, absolute = False, duration  = 0.01)
+                                # print(((1 - hand_landmarks.x) - preciseStartPoint[0]) * 100, (hand_landmarks.y - preciseStartPoint[1]) * 100)
+                                preciseStartPoint = (1 - hand_landmarks.x, hand_landmarks.y)
+                        else:
+                            preciseStartPoint = (1 - hand_landmarks.x, hand_landmarks.y)
+                            currentlyPreciseMoving = 1
+                    else:
+                        mouse.move(((((1 - hand_landmarks.x) * 1.71429) - 0.357143) * 1382), (((hand_landmarks.y * 1.71429) - 0.357143) * 864), absolute=True, duration=0) # 1382 x 864 is currently my own screen resolution (only that small because its scaled 250%) I want to change this to get the machine's screen size (not sure how I will account for scaling though)
+                        currentlyPreciseMoving = 0
                     lastMovePoint = (1 - hand_landmarks.x, hand_landmarks.y)
             else:
                 currentlyMoving = 1
-                mouse.move((((1 - hand_landmarks.x) * 1.71429) -0.357143) * 1382, ((hand_landmarks.y * 1.71429) -0.357143) * 864, absolute=True, duration=0)
+                mouse.move((((1 - hand_landmarks.x) * 1.71429) - 0.357143) * 1382, ((hand_landmarks.y * 1.71429) - 0.357143) * 864, absolute=True, duration=0)
                 lastMovePoint = (1 - hand_landmarks.x, hand_landmarks.y)
             if(dragStarted == 1):
                 mouse.drag(dragStartPoint[0], dragStartPoint[1], mouse.get_position()[0], mouse.get_position()[1], absolute = True, duration = 0.1)
@@ -71,7 +93,7 @@ def mouseFunctions(result: GestureRecognizerResult, output_image: mp.Image, time
                 dragStartPoint = mouse.get_position()
                 dragStarted = 1
             if(((abs(lastMovePoint[0] - (1 - hand_landmarks.x)) > 0.003)) or (abs(lastMovePoint[1] - hand_landmarks.y) > 0.003)):
-                    mouse.move((((1 - hand_landmarks.x) * 1.71429) -0.357143) * 1382, ((hand_landmarks.y * 1.71429) -0.357143) * 864, absolute=True, duration=0) # 1382 x 864 is currently my own screen resolution (only that small because its scaled 250%) I want to change this to get the machine's screen size (not sure how I will account for scaling though)
+                    mouse.move((((1 - hand_landmarks.x) * 1.71429) - 0.357143) * 1382, ((hand_landmarks.y * 1.71429) - 0.357143) * 864, absolute=True, duration=0) # 1382 x 864 is currently my own screen resolution (only that small because its scaled 250%) I want to change this to get the machine's screen size (not sure how I will account for scaling though)
                     lastMovePoint = (1 - hand_landmarks.x, hand_landmarks.y)
             currentlyMoving = 0
         else:
@@ -79,9 +101,7 @@ def mouseFunctions(result: GestureRecognizerResult, output_image: mp.Image, time
             rightClicked = 0
             middleClicked = 0
             currentlyMoving = 0
-
-        
-
+            currentlyPreciseMoving = 0
 
 options = GestureRecognizerOptions(
     base_options=BaseOptions(model_asset_path='gesture_recognizer.task'),
@@ -94,6 +114,9 @@ with GestureRecognizer.create_from_options(options) as recognizer:
     while video.isOpened(): 
         # Capture frame-by-frame
         ret, frame = video.read()
+
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        cv2.imshow('frame', gray) # replace second frame with gray for grayscale
 
         if not ret:
             print("Ignoring empty frame")
