@@ -2,6 +2,8 @@ import mediapipe as mp
 import cv2
 import mouse
 import settings
+from win32api import GetSystemMetrics
+import win32con
 
 BaseOptions = mp.tasks.BaseOptions
 GestureRecognizer = mp.tasks.vision.GestureRecognizer
@@ -12,6 +14,8 @@ VisionRunningMode = mp.tasks.vision.RunningMode
 
 video = cv2.VideoCapture(0)
 
+screenWidthWithScale = GetSystemMetrics(win32con.SM_CXVIRTUALSCREEN)
+screenHeightWithScale = GetSystemMetrics(win32con.SM_CYVIRTUALSCREEN)
 leftClicked = 0
 rightClicked = 0
 middleClicked = 0
@@ -31,6 +35,8 @@ def mouseFunctions(result: GestureRecognizerResult, output_image: mp.Image, time
     global previousPreciseCords
     global preciseFrameBuffer
     global dragFrameBuffer
+    global screenWidthWithScale
+    global screenHeightWithScale
 
     hand_landmarks_list = result.hand_landmarks # is list with one list in it that has all landmarks
 
@@ -56,11 +62,12 @@ def mouseFunctions(result: GestureRecognizerResult, output_image: mp.Image, time
                 mouse.drag(dragStartPoint[0], dragStartPoint[1], mouse.get_position()[0], mouse.get_position()[1], absolute = True, duration = settings.dragSpeed) # DRAG MOUSE FUNCTION: drags the mouse from the stored coordinates where the drag was initiated to where the drag has ended
 
         match gesture: # match case structure to dictate what to do for each gesture
+            
             case "Open_Palm": # MOVING AND PRECISELY MOVING MOUSE
                 
                 if(handZCord >= settings.preciseMovementThreshold and preciseFrameBuffer >= settings.preciseFrameBufferThreshold): # MOVING MOUSE: hand is far enough from camera and has not been precise moving for at certain number of frames
                     if(((abs(lastMovePoint[0] - handXCord) > settings.minMovedDistance)) or (abs(lastMovePoint[1] - handYCord) > settings.minMovedDistance)): # JITTERY MOUSE PREVENTION: see README
-                        mouse.move((((handXCord * 1.71429) - 0.357143) * settings.screenResolution[0]), (((handYCord * 1.71429) - 0.357143) * settings.screenResolution[1]), absolute=True, duration=0) # MOVE MOUSE FUNCTION: see README
+                        mouse.move((((handXCord * 1.71429) - 0.357143) * screenWidthWithScale), (((handYCord * 1.71429) - 0.357143) * screenHeightWithScale), absolute=True, duration=0) # MOVE MOUSE FUNCTION: see README
                         lastMovePoint = (handXCord, handYCord) # used for jittery mouse prevention
                 
                 elif(handZCord >= settings.preciseMovementThreshold): # INCREMENT FRAME BUFFER: only reached if far enough from camera but was precisely moving within 15 frames
@@ -83,7 +90,7 @@ def mouseFunctions(result: GestureRecognizerResult, output_image: mp.Image, time
                 # proceeding block identical to block in Open_Palm case
                 if(handZCord >= settings.preciseMovementThreshold and preciseFrameBuffer >= settings.preciseFrameBufferThreshold): # MOVING MOUSE: hand is far enough from camera and has not been precise moving for at certain number of frames
                     if(((abs(lastMovePoint[0] - handXCord) > settings.minMovedDistance)) or (abs(lastMovePoint[1] - handYCord) > settings.minMovedDistance)): # JITTERY MOUSE PREVENTION: see README
-                        mouse.move((((handXCord * 1.71429) - 0.357143) * settings.screenResolution[0]), (((handYCord * 1.71429) - 0.357143) * settings.screenResolution[1]), absolute=True, duration=0) # MOVE MOUSE FUNCTION: see README
+                        mouse.move((((handXCord * 1.71429) - 0.357143) * screenWidthWithScale), (((handYCord * 1.71429) - 0.357143) * screenHeightWithScale), absolute=True, duration=0) # MOVE MOUSE FUNCTION: see README
                         lastMovePoint = (handXCord, handYCord) # used for jittery mouse prevention
                 elif(handZCord >= settings.preciseMovementThreshold): # INCREMENT FRAME BUFFER: only reached if far enough from camera but was precisely moving within 15 frames
                     preciseFrameBuffer += 1
@@ -137,8 +144,8 @@ with GestureRecognizer.create_from_options(options) as recognizer:
         # Capture frame-by-frame
         ret, frame = video.read()
 
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        cv2.imshow('frame', gray) # replace second frame with gray for grayscale
+        # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) # uncomment to make camera feed gray - does not change the frames that get analyzed to gray
+        # cv2.imshow('frame', gray) # replace second frame with gray for grayscale # uncomment to show camera feed
 
         if not ret:
             print("Ignoring empty frame")
