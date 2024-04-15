@@ -43,15 +43,15 @@ To get the best results for all hand gestures, orientate your hand so your palm 
 
 - MOVING MOUSE
 
-To move the mouse, move your hand into view of your camera and make an open palm gesture like this 🖐️. The mouse on screen will match your hand's movement. The hand tracker uses the base of your middle finger to track your hand's movement so imagine you're moving the mouse with the middle of your hand to get the best feeling for moving the mouse.
+  To move the mouse, move your hand into view of your camera and make an open palm gesture like this 🖐️. The mouse on screen will match your hand's movement. The hand tracker uses the base of your middle finger to track your hand's movement so imagine you're moving the mouse with the middle of your hand to get the best feeling for moving the mouse.
 
 - DRAGGING
 
-To click and drag, move the mouse to one point of where you want to start dragging. Then make spiderman gesture (I love you in sign language) like this 🤟. Keep your hand in this gesture and move your hand to move the mouse into the opposite point of where you want the dragging to end. Once you do any other gesture, the mouse will drag from the start to end points.
+  To click and drag, move the mouse to one point of where you want to start dragging. Then make spiderman gesture (I love you in sign language) like this 🤟. Keep your hand in this gesture and move your hand to move the mouse into the opposite point of where you want the dragging to end. Once you do any other gesture, the mouse will drag from the start to end points.
 
 - MOVING MOUSE SLOWLY
 
-To move the mouse more slowly, tilt your hand forward towards the camera. You may have to move your hand closer to the camera. For best results, if having your palm facing the camera straight up and down is 0 degrees, tilt your hand forward about 35 degrees. To return to regular mouse movement speed, return your hand to an upright position. Moving the mouse slowly is possible both during regular mouse movement and dragging.
+  To move the mouse more slowly, tilt your hand forward towards the camera. You may have to move your hand closer to the camera. For best results, if having your palm facing the camera straight up and down is 0 degrees, tilt your hand forward about 35 degrees. To return to regular mouse movement speed, return your hand to an upright position. Moving the mouse slowly is possible both during regular mouse movement and dragging.
 
 ### Clicking
 
@@ -59,15 +59,15 @@ For all types of clicks, the mouse will only click once even if you keep your ha
 
 - LEFT CLICK
 
-To left click, make a pointing up gesture like this ☝️.
+  To left click, make a pointing up gesture like this ☝️.
 
 - RIGHT CLICK
 
-To right click, make a peace sign (same as pointing up but with middle finger pointing up as well) like this ✌️.
+  To right click, make a peace sign (same as pointing up but with middle finger pointing up as well) like this ✌️.
 
 - MIDDLE CLICK
 
-To middle click, make a fist like this ✊.
+  To middle click, make a fist like this ✊.
 
 ### Scrolling
 
