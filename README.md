@@ -39,7 +39,7 @@ Now that you have the correct version of Python and the libraries installed, you
 
 To get the best results for all hand gestures, orientate your hand so your palm is facing the camera and keep your hand straight up and down. Tilting or rotating your will cause the gesture recognizer to unrecognize your hand gesture.
 
-### Moving mouse
+### MOVING MOUSE
 
 To move the mouse, move your hand into view of your camera and make an open palm gesture like this 🖐️. The mouse on screen will match your hand's movement. The hand tracker uses the base of your middle finger to track your hand's movement so imagine you're moving the mouse with the middle of your hand to get the best feeling for moving the mouse.
 
@@ -51,7 +51,7 @@ To click and drag, move the mouse to one point of where you want to start draggi
 
 To move the mouse more slowly, tilt your hand forward towards the camera. You may have to move your hand closer to the camera. For best results, if having your palm facing the camera straight up and down is 0 degrees, tilt your hand forward about 35 degrees. To return to regular mouse movement speed, return your hand to an upright position. Moving the mouse slowly is possible both during regular mouse movement and dragging.
 
-### Clicking
+### CLICKING
 
 For all types of clicks, the mouse will only click once even if you keep your hand in the same clicking gesture. To click again, make any other gesture then make the desired click's gesture again.
 
@@ -67,7 +67,7 @@ To right click, make a peace sign (same as pointing up but with middle finger po
 
 To middle click, make a fist like this ✊.
 
-### Scrolling
+### SCROLLING
 
 To scroll up, make a thumbs up like this 👍. Unsurprisingly, to scroll down, make a thumbs down like this 👎.
 
