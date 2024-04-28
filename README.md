@@ -1,6 +1,6 @@
 # Air Mouse
 
-Have you ever been cooking a recipe but had to keep wiping your hands to scroll down on your laptop? Or maybe found yourself unable to use the trackpad becuase you have gloves on? Air Mouse lets you control your mouse using your camera to track your hand and recognize hand gestures. The mouse matches the movement of your hand and the recognized hand gestures control different mouse functions like left and right click.
+Have you ever been cooking a recipe but had to keep wiping your hands to scroll down on your laptop? Or maybe found yourself unable to use the trackpad becuase you have gloves on? Air Mouse lets you control your mouse using your camera to track your hand and recognize hand gestures. The mouse matches the movement of your hand and the recognized hand gestures control different mouse functions like left and right click. This program currently only runs on Windows.
 
 ## How to Install
 
