@@ -6,10 +6,10 @@ Have you ever been cooking a recipe but had to keep wiping your hands to scroll 
 
 To install, all you have to do is click on Air Mouse 1.0 under releases, download the source code zip file, and exctract the folder.
 
-## For Coders
+## For Developers
 
 If you want to work on the project you must have **Python version 3.10.1** installed. You can either downgrade/upgrade your Python version to match this version or create a virtual environment with Python 3.10.1. You can download Python 3.10.1 [here](https://www.python.org/downloads/release/python-3101/).
-Next, you will have to install four libraries: OpenCV, MediaPipe, mouse and pywin32. OpenCV is a powerful computer vision library however the only feature used here is accessing the camera. MediaPipe is a library that utilizes artificial intelligence and machine learning for a wide range of solutions, but this project will only use the hand tracking and gesture recognition solutions. mouse is a library that allows you to programmatically control your mouse. pywin32 provides access to tons of Python 3 Windows APIS but this library will only be used to retrieve the screen's resolution with the scaling percentage.
+Next, you will have to install four libraries: OpenCV, MediaPipe, mouse and pywin32. OpenCV is a powerful computer vision library however the only feature used here is accessing the camera. MediaPipe is a library that utilizes artificial intelligence and machine learning for a wide range of solutions, but this project will only use the hand tracking and gesture recognition solutions. mouse is a library that allows you to programmatically control your mouse. pywin32 provides access to tons of Python 3 Windows APIS but this library will only be used to retrieve the screen's resolution with the scaling percentage. This project was packaged into an exe file with the pyinstaller library. However, this library is not required to edit and run the project.
 
 ### Libraries
 
