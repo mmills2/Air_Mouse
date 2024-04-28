@@ -5,17 +5,17 @@ import settings
 from win32api import GetSystemMetrics
 import win32con
 
+# library setup
 BaseOptions = mp.tasks.BaseOptions
 GestureRecognizer = mp.tasks.vision.GestureRecognizer
 GestureRecognizerOptions = mp.tasks.vision.GestureRecognizerOptions
 GestureRecognizerResult = mp.tasks.vision.GestureRecognizerResult
 VisionRunningMode = mp.tasks.vision.RunningMode
-
-
 video = cv2.VideoCapture(0)
 
-screenWidthWithScale = GetSystemMetrics(win32con.SM_CXVIRTUALSCREEN)
-screenHeightWithScale = GetSystemMetrics(win32con.SM_CYVIRTUALSCREEN)
+# variable setup
+screenWidthWithScale = GetSystemMetrics(win32con.SM_CXVIRTUALSCREEN) # gets pixel width of screen accounting for scale percentage (how zoomed in the screen is)
+screenHeightWithScale = GetSystemMetrics(win32con.SM_CYVIRTUALSCREEN) # gets pixel height of screen accounting for scale percentage (how zoomed in the screen is)
 leftClicked = 0
 rightClicked = 0
 middleClicked = 0
@@ -144,8 +144,8 @@ with GestureRecognizer.create_from_options(options) as recognizer:
         # Capture frame-by-frame
         ret, frame = video.read()
 
-        # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) # uncomment to make camera feed gray - does not change the frames that get analyzed to gray
-        # cv2.imshow('frame', gray) # replace second frame with gray for grayscale # uncomment to show camera feed
+        # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) # uncomment line to make camera feed gray - does not change the frames that get analyzed to gray
+        cv2.imshow('Air Mouse Camera View', frame) # replace <frame> with 'gray' for grayscale camera feed
 
         if not ret:
             print("Ignoring empty frame")

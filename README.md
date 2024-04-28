@@ -1,10 +1,10 @@
 # Air Mouse
 
-Air Mouse lets you control your mouse using your camera to track your hand and recognize hand gestures. The mouse matches the movement of your hand and the recognized hand gestures control different mouse functions like left and right click.
+Have you ever been cooking a recipe but had to keep wiping your hands to scroll down on your laptop? Or maybe found yourself unable to use the trackpad becuase you have gloves on? Air Mouse lets you control your mouse using your camera to track your hand and recognize hand gestures. The mouse matches the movement of your hand and the recognized hand gestures control different mouse functions like left and right click.
 
 ## How to Install
 
-To begin, you must have **Python version 3.10** installed. You can either downgrade/upgrade your Python version to match this version or create a virtual environment with Python 3.10.
+To begin, you must have **Python version 3.10.1** installed. You can either downgrade/upgrade your Python version to match this version or create a virtual environment with Python 3.10.1. You can download Python 3.10.1 [here](https://www.python.org/downloads/release/python-3101/).
 Next, you will have to install four libraries: OpenCV, MediaPipe, mouse and pywin32. OpenCV is a powerful computer vision library however the only feature used here is accessing the camera. MediaPipe is a library that utilizes artificial intelligence and machine learning for a wide range of solutions, but this project will only use the hand tracking and gesture recognition solutions. mouse is a library that allows you to programmatically control your mouse. pywin32 provides access to tons of Python 3 Windows APIS but this library will only be used to retrieve the screen's resolution with the scaling percentage.
 
 ### Libraries
@@ -12,7 +12,7 @@ Next, you will have to install four libraries: OpenCV, MediaPipe, mouse and pywi
 To install OpenCV, run the following command in your command line:
 
 ```
-python -m pip install opencv
+python -m pip install opencv-python
 ```
 
 To install MediaPipe, run the following command in your command line:
