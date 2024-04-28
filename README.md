@@ -4,7 +4,11 @@ Have you ever been cooking a recipe but had to keep wiping your hands to scroll 
 
 ## How to Install
 
-To begin, you must have **Python version 3.10.1** installed. You can either downgrade/upgrade your Python version to match this version or create a virtual environment with Python 3.10.1. You can download Python 3.10.1 [here](https://www.python.org/downloads/release/python-3101/).
+To install, all you have to do is click on Air Mouse 1.0 under releases, download the source code zip file, and exctract the folder.
+
+## For Coders
+
+If you want to work on the project you must have **Python version 3.10.1** installed. You can either downgrade/upgrade your Python version to match this version or create a virtual environment with Python 3.10.1. You can download Python 3.10.1 [here](https://www.python.org/downloads/release/python-3101/).
 Next, you will have to install four libraries: OpenCV, MediaPipe, mouse and pywin32. OpenCV is a powerful computer vision library however the only feature used here is accessing the camera. MediaPipe is a library that utilizes artificial intelligence and machine learning for a wide range of solutions, but this project will only use the hand tracking and gesture recognition solutions. mouse is a library that allows you to programmatically control your mouse. pywin32 provides access to tons of Python 3 Windows APIS but this library will only be used to retrieve the screen's resolution with the scaling percentage.
 
 ### Libraries
@@ -33,11 +37,11 @@ To install pywin32, run the following command in your command line:
 python -m pip install pywin32
 ```
 
-Now that you have the correct version of Python and the libraries installed, you're good to download this project's code and run the code in your programming environment.
+Now that you have the correct version of Python and the libraries installed, you're good to download this project's code and run the code in your programming environment. One of the most widely used programming environments is Visual Studio Code which you can download [here](https://code.visualstudio.com/). Make sure when opening the project folder to select the Air_Mouse folder. If you open a folder the Air_Mouse folder is contained in, the program will not run.
 
 ## How to use
 
-To get the best results for all hand gestures, orientate your hand so your palm is facing the camera and keep your hand straight up and down. Tilting or rotating your can cause the gesture recognizer to unrecognize your hand gesture.
+To run the program, just run the AirMouse.exe file. Your may have to give permission to your anti virus software to run the program. To stop the program, make sure the window "Air Mouse Camera View" is focused on and press the escape key. To get the best results for all hand gestures, orientate your hand so your palm is facing the camera and keep your hand straight up and down. Tilting or rotating your can cause the gesture recognizer to unrecognize your hand gesture.
 
 ### Mouse Movement
 
