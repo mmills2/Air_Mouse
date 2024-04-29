@@ -4,7 +4,7 @@ Have you ever been cooking a recipe but had to keep wiping your hands to scroll 
 
 ## How to Install
 
-To install, all you have to do is click on Air Mouse 1.0 under releases, download the source code zip file, and exctract the folder.
+To install, all you have to do is click on Air Mouse 1.0.0 under releases, download the source code zip file, and exctract the folder.
 
 ## For Developers
 
